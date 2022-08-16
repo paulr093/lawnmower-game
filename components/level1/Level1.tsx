@@ -41,7 +41,10 @@ export const Level1: FunctionComponent = () => {
    const mowerSound = useRef<HTMLAudioElement>(null)
 
    useEffect(() => {
-      if (mowerSound.current) mowerSound.current.volume = 0.3
+      if (mowerSound.current) {
+         mowerSound.current.volume = 0.3
+         mowerSound.current.loop = true
+      }
    }, [])
 
    const playSound = () => {
