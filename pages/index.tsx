@@ -31,6 +31,7 @@ const Home: NextPage = () => {
             height: '100vh',
             width: '100vw',
             alignItems: 'center',
+            userSelect: 'none',
          }}
       >
          <Head>
@@ -48,6 +49,7 @@ const Home: NextPage = () => {
                display: 'flex',
                height: '600px',
                width: '800px',
+               userSelect: 'none',
             }}
          >
             <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 10 }}>
@@ -57,7 +59,6 @@ const Home: NextPage = () => {
             <div style={{ position: 'absolute', top: 20, left: 120, zIndex: 10 }}>
                <Garage />
             </div>
-            {/* <Cursor /> */}
             <Image
                alt='logo'
                src='/textures/logo.png'

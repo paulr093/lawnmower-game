@@ -6,8 +6,8 @@ import { homeStyles } from '../../styles/home'
 
 const GrassTile = () => {
    const [opacity, setOpacity] = useState(1)
-   const increasePatchesMowed = useStatsStore((state: StatsState) => state.increasePatchesMowed)
-   const mowerStats = useStatsStore((state: StatsState) => state.mowerStats)
+   const increasePatchesMowed = useStatsStore((state: any) => state.increasePatchesMowed)
+   const mowerStats = useStatsStore((state: any) => state.mowerStats)
 
    const handleMouseEnter = () => {
       if (opacity >= 1) {
@@ -25,6 +25,7 @@ const GrassTile = () => {
       }
 
       return () => clearInterval(intervalId)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [opacity])
 
    return (
@@ -37,23 +38,22 @@ const GrassTile = () => {
 export const Level1: FunctionComponent = () => {
    const { classes } = homeStyles()
    const amountOfGrass = new Array(50).fill(undefined)
-   let mowerSound = useRef<HTMLAudioElement | undefined>(
-      typeof Audio !== 'undefined' ? new Audio('/sounds/lawn-mower-sound.mp3') : undefined
-   )
+   const mowerSound = useRef<HTMLAudioElement>(null)
+
    useEffect(() => {
-      mowerSound.current.volume = 0.1
-      mowerSound.current.loop = true
-   })
+      if (mowerSound.current) mowerSound.current.volume = 0.3
+   }, [])
 
    const playSound = () => {
-      // mowerSound?.current?.play()
+      mowerSound.current?.play()
    }
    const pauseSound = () => {
-      // mowerSound.current?.pause()
+      mowerSound.current?.pause()
    }
 
    return (
-      <div className={classes.grassContainer} onMouseEnter={playSound} onMouseLeave={pauseSound}>
+      <div className={classes.grassContainer}>
+         <audio ref={mowerSound} src='/sounds/lawn-mower-sound.mp3' />
          <div style={{ position: 'absolute', zIndex: 2 }}>
             <Image
                src='/textures/background.png'
@@ -84,7 +84,13 @@ export const Level1: FunctionComponent = () => {
          >
             <Image src='/textures/background-100-bot.png' alt='bottom' layout='fixed' height={100} width={800} />
          </div>
-         <SimpleGrid cols={10} spacing={0} style={{ paddingTop: '20px' }}>
+         <SimpleGrid
+            cols={10}
+            spacing={0}
+            style={{ paddingTop: '20px' }}
+            onMouseEnter={playSound}
+            onMouseLeave={pauseSound}
+         >
             {amountOfGrass.map((_, idx) => (
                <GrassTile key={idx} />
             ))}
