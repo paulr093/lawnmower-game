@@ -1,6 +1,7 @@
 import type { AppProps } from 'next/app'
 import { Global, MantineProvider } from '@mantine/core'
 import { Cursor } from '../components/Cursor'
+import { NotificationsProvider } from '@mantine/notifications'
 
 const GlobalStyles = () => {
    return (
@@ -10,6 +11,7 @@ const GlobalStyles = () => {
                body: {
                   backgroundColor: '#9EB23B',
                   overflow: 'hidden',
+                  color: 'yellow',
                },
             },
          ]}
@@ -26,13 +28,16 @@ function MyApp({ Component, pageProps }: AppProps) {
             /** Put your mantine theme override here */
             headings: {
                fontFamily: 'Silkscreen, cursive',
+               color: 'yellow',
             },
-            colors: { yellow: '#fcdc3a' as any },
+            colors: { customYellow: '#fcdc3a' as any, green: '#9EB23B' as any },
          }}
       >
-         <Cursor />
-         <GlobalStyles />
-         <Component {...pageProps} />
+         <NotificationsProvider>
+            <Cursor />
+            <GlobalStyles />
+            <Component {...pageProps} />
+         </NotificationsProvider>
       </MantineProvider>
    )
 }

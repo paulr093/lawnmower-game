@@ -1,16 +1,28 @@
-import { BackgroundImage, Center, Image, SimpleGrid, Title, useMantineTheme } from '@mantine/core'
+import { BackgroundImage, Center, Image, Progress, SimpleGrid, Title, useMantineTheme } from '@mantine/core'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { Cursor } from '../components/Cursor'
+import { Garage } from '../components/Garage'
 import { Level1 } from '../components/level1/Level1'
+import { Store } from '../components/Store'
 import { StatsState, useStatsStore } from '../store/zustandStore'
 import { homeStyles } from '../styles/home'
 
 const Home: NextPage = () => {
    const theme = useMantineTheme()
-   // TODO: this TS state is messed up.
-   const patchesMowed = useStatsStore((state: any) => state.patchesMowed)
+   const { patchesMowed, bagsFilled, increaseBagsFilled, resetPatchesMowed, mowerStats } = useStatsStore(
+      (state: any) => state
+   )
+
+   useEffect(() => {
+      if (patchesMowed >= 100) {
+         resetPatchesMowed()
+         increaseBagsFilled()
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [patchesMowed])
+
    return (
       <div
          style={{
@@ -34,23 +46,39 @@ const Home: NextPage = () => {
                cursor: 'none',
                justifyContent: 'center',
                display: 'flex',
-               height: '500px',
+               height: '600px',
                width: '800px',
             }}
          >
+            <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 10 }}>
+               <Store />
+            </div>
+
+            <div style={{ position: 'absolute', top: 20, left: 120, zIndex: 10 }}>
+               <Garage />
+            </div>
+            {/* <Cursor /> */}
             <Image
                alt='logo'
                src='/textures/logo.png'
                height='200px'
                width='450px'
-               style={{ position: 'absolute', top: '-200px', zIndex: 999 }}
+               style={{ position: 'absolute', top: '-120px', zIndex: 6 }}
             />
             <Level1 />
 
-            <div style={{ position: 'absolute', bottom: '-30px', width: '800px' }}>
-               <Title style={{ color: theme.colors.yellow as any }} order={3}>
-                  Patches Mowed: {patchesMowed}
-               </Title>
+            <div style={{ position: 'absolute', bottom: '-90px', width: '800px' }}>
+               <Title order={3}>Bags Filled: {bagsFilled}</Title>
+               <Progress
+                  value={patchesMowed}
+                  color='yellow'
+                  style={{ border: '1px solid green', backgroundColor: 'rgba(0,0,0,0.2)' }}
+               />
+               <Title order={4}>Mower Stats:</Title>
+               <SimpleGrid cols={2}>
+                  <Title order={5}>Per Patch: {mowerStats.perPatch}</Title>
+                  <Title order={5}>Growth Rate: 0.1 per {mowerStats.growthRate / 1000} seconds </Title>
+               </SimpleGrid>
             </div>
          </div>
       </div>

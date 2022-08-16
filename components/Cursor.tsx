@@ -1,8 +1,10 @@
 import { Image } from '@mantine/core'
 import { useEffect, useState } from 'react'
+import { StatsState, useStatsStore } from '../store/zustandStore'
 
 export const Cursor = () => {
    const [position, setPosition] = useState({ x: 0, y: 0 })
+   const { mowerImage } = useStatsStore((state: any) => state)
 
    const handleMouseMove = (event: MouseEvent) => {
       setPosition({ x: event.clientX, y: event.clientY })
@@ -16,17 +18,17 @@ export const Cursor = () => {
 
    return (
       <Image
-         src='/textures/mower-cursor.png'
+         src={mowerImage}
          alt='Cursor'
          style={{
             position: 'absolute',
-            height: '75px',
+            height: '100px',
             width: '100px',
             left: `${position.x}px`,
             top: `${position.y}px`,
-            transform: 'translate(-45%, -75%)',
+            transform: 'translate(-45%, -55%)',
             pointerEvents: 'none',
-            zIndex: 999,
+            zIndex: 100,
          }}
       />
    )

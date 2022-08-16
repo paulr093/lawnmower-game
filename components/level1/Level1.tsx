@@ -1,17 +1,18 @@
 import { SimpleGrid } from '@mantine/core'
 import Image from 'next/image'
-import { FunctionComponent, useEffect, useState } from 'react'
-import { useStatsStore } from '../../store/zustandStore'
+import { FunctionComponent, useEffect, useRef, useState } from 'react'
+import { StatsState, useStatsStore } from '../../store/zustandStore'
 import { homeStyles } from '../../styles/home'
 
 const GrassTile = () => {
    const [opacity, setOpacity] = useState(1)
-   const increasePatchesMowed = useStatsStore((state: any) => state.increasePatchesMowed)
+   const increasePatchesMowed = useStatsStore((state: StatsState) => state.increasePatchesMowed)
+   const mowerStats = useStatsStore((state: StatsState) => state.mowerStats)
 
    const handleMouseEnter = () => {
       if (opacity >= 1) {
-         increasePatchesMowed(10)
-         setOpacity(0.5)
+         increasePatchesMowed(mowerStats.perPatch)
+         setOpacity(0.65)
       }
    }
 
@@ -20,7 +21,7 @@ const GrassTile = () => {
       if (opacity < 1) {
          intervalId = setInterval(() => {
             setOpacity((curr) => curr + 0.1)
-         }, 2500)
+         }, mowerStats.growthRate)
       }
 
       return () => clearInterval(intervalId)
@@ -35,47 +36,55 @@ const GrassTile = () => {
 
 export const Level1: FunctionComponent = () => {
    const { classes } = homeStyles()
-   const amountOfGrass = new Array(40).fill(undefined)
+   const amountOfGrass = new Array(50).fill(undefined)
+   let mowerSound = useRef<HTMLAudioElement | undefined>(
+      typeof Audio !== 'undefined' ? new Audio('/sounds/lawn-mower-sound.mp3') : undefined
+   )
+   useEffect(() => {
+      mowerSound.current.volume = 0.1
+      mowerSound.current.loop = true
+   })
+
+   const playSound = () => {
+      // mowerSound?.current?.play()
+   }
+   const pauseSound = () => {
+      // mowerSound.current?.pause()
+   }
 
    return (
-      <div className={classes.grassContainer}>
+      <div className={classes.grassContainer} onMouseEnter={playSound} onMouseLeave={pauseSound}>
          <div style={{ position: 'absolute', zIndex: 2 }}>
             <Image
                src='/textures/background.png'
+               priority
                layout='fixed'
                alt='bg'
-               height={500}
+               height={600}
                width={800}
                style={{ borderRadius: '20px' }}
             />
          </div>
-         <div style={{ position: 'absolute', top: 0, zIndex: 3 }}>
+         <div style={{ position: 'absolute', top: 15, zIndex: 5 }}>
             <Image
                src='/textures/background-100.png'
                alt='top'
                layout='fixed'
                height={100}
                width={800}
-               style={{ borderRadius: '20px' }}
+               style={{ borderRadius: '20px 0 0 0' }}
             />
          </div>
          <div
             style={{
                position: 'absolute',
-               bottom: 0,
-               zIndex: 1,
+               bottom: 20,
+               zIndex: 5,
             }}
          >
-            <Image
-               src='/textures/background-100-bot.png'
-               alt='bottom'
-               layout='fixed'
-               height={100}
-               width={800}
-               style={{ borderRadius: '20px' }}
-            />
+            <Image src='/textures/background-100-bot.png' alt='bottom' layout='fixed' height={100} width={800} />
          </div>
-         <SimpleGrid cols={10} spacing={0} style={{ paddingTop: '20px', zIndex: 4 }}>
+         <SimpleGrid cols={10} spacing={0} style={{ paddingTop: '20px' }}>
             {amountOfGrass.map((_, idx) => (
                <GrassTile key={idx} />
             ))}
