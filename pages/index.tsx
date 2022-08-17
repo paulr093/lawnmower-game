@@ -1,24 +1,20 @@
-import { BackgroundImage, Center, Image, Progress, SimpleGrid, Title, useMantineTheme } from '@mantine/core'
+import { Image, Progress, SimpleGrid, Title } from '@mantine/core'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { Cursor } from '../components/Cursor'
 import { Garage } from '../components/Garage'
 import { Level1 } from '../components/level1/Level1'
-import { Robots } from '../components/Robots'
+import { SaveButton } from '../components/SaveButton'
 import { Store } from '../components/Store'
-import { StatsState, useStatsStore } from '../store/zustandStore'
-import { homeStyles } from '../styles/home'
+import { useStatsStore } from '../store/zustandStore'
 
 const Home: NextPage = () => {
-   const theme = useMantineTheme()
    const {
       patchesMowed,
       bagsFilled,
       increaseBagsFilled,
       resetPatchesMowed,
       mowerStats,
-      robots,
       botsPerTick,
       botsTickRate,
       increasePatchesMowed,
@@ -82,6 +78,11 @@ const Home: NextPage = () => {
             <div style={{ position: 'absolute', top: 20, left: 120, zIndex: 10 }}>
                <Garage />
             </div>
+
+            <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10 }}>
+               <SaveButton />
+            </div>
+
             <Image
                alt='logo'
                src='/textures/logo.png'
@@ -89,9 +90,6 @@ const Home: NextPage = () => {
                width='450px'
                style={{ position: 'absolute', top: '-120px', zIndex: 6 }}
             />
-            {/* {Object.keys(robots).map((type) =>
-               robots[type].map((mowerImage: string, id: number) => <Robots key={id} mowerImage={mowerImage} />)
-            )} */}
 
             <Level1 />
 
@@ -109,7 +107,7 @@ const Home: NextPage = () => {
                </SimpleGrid>
                <Title order={4}>Robot Stats:</Title>
                <SimpleGrid cols={2}>
-                  <Title order={5}>Bot Patches: {botsPerTick}</Title>
+                  <Title order={5}>Bot Per Patch: {botsPerTick}</Title>
                   <Title order={5}>Bot Tick Rate: {botsTickRate / 1000} second</Title>
                </SimpleGrid>
             </div>

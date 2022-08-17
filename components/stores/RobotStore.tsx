@@ -58,7 +58,7 @@ export const RobotStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
          showNotification({
             title: 'Purchase Successful!',
             message: `You now have a ${mowerName} mower robot!`,
-            color: 'green',
+            color: 'lime',
             autoClose: 3000,
          })
       }

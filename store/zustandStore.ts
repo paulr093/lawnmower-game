@@ -59,6 +59,7 @@ export const useStatsStore = create((set) => ({
     bagsFilled: 0,
     increaseBagsFilled: (amount: number) => set((state: StatsState) => ({bagsFilled: state.bagsFilled + (amount || 1)})),
     subtractBagsFilled: (amount: number) => set((state: StatsState) => ({bagsFilled: state.bagsFilled - amount})),
+    setBagsFilled: (amount: number) => set(() => ({bagsFilled: amount})),
 
     mowerStats: {perPatch: 1, growthRate: 2000},
     setMowerStats: (perPatch: number, growthRate: number) => set(() => ({mowerStats: {perPatch: perPatch, growthRate: growthRate }})),
@@ -68,6 +69,7 @@ export const useStatsStore = create((set) => ({
 
     purchasedMowers: ['/textures/mower-cursor.png'],
     setPurchasedMowers: (image: string) => set((state: StatsState) => ({purchasedMowers: [...state.purchasedMowers, image]})),
+    setPurchasedMowersFromStorage: (mowers: string[]) => set(() => ({purchasedMowers: mowers})),
 
     robots: {
         base: [],
@@ -79,6 +81,7 @@ export const useStatsStore = create((set) => ({
     setBotsPerTick: (amount: number) => set((state: StatsState) => ({botsPerTick: state.botsPerTick + amount})),
     botsTickRate: 1000,
     setTickRate: (amount: number) => set(() => ({botsTickRate: amount})),
+    setBotsPerTickFromStorage: (amount: number) => set(() => ({botsPerTick: amount})),
 
     setRobots: (type: any, image: string) => set((state: any) => ({robots: {...state.robots, [type]: [...state.robots[type], image]}}))
 

@@ -28,7 +28,7 @@ export const MowerStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
          showNotification({
             title: 'Purchase Successful!',
             message: `You now have a ${mowerName} mower.`,
-            color: 'green',
+            color: 'lime',
             autoClose: 3000,
          })
       } else {
