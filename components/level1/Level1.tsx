@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { StatsState, useStatsStore } from '../../store/zustandStore'
 import { homeStyles } from '../../styles/home'
+import { Robots } from '../Robots'
 
 const GrassTile = () => {
    const [opacity, setOpacity] = useState(1)
@@ -39,6 +40,7 @@ export const Level1: FunctionComponent = () => {
    const { classes } = homeStyles()
    const amountOfGrass = new Array(50).fill(undefined)
    const mowerSound = useRef<HTMLAudioElement>(null)
+   const robots = useStatsStore((state: any) => state.robots)
 
    useEffect(() => {
       if (mowerSound.current) {
@@ -57,6 +59,11 @@ export const Level1: FunctionComponent = () => {
    return (
       <div className={classes.grassContainer} onMouseEnter={playSound} onMouseLeave={pauseSound}>
          <audio ref={mowerSound} src='/sounds/lawn-mower-sound.mp3' />
+
+         {Object.keys(robots).map((type) =>
+            robots[type].map((mowerImage: string, id: number) => <Robots key={id} mowerImage={mowerImage} />)
+         )}
+
          <div style={{ position: 'absolute', zIndex: 2 }}>
             <Image
                src='/textures/background.png'

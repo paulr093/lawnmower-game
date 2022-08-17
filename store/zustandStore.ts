@@ -57,7 +57,7 @@ export const useStatsStore = create((set) => ({
     resetPatchesMowed: () => set(() => ({patchesMowed: 0})),
 
     bagsFilled: 0,
-    increaseBagsFilled: () => set((state: StatsState) => ({bagsFilled: state.bagsFilled + 1})),
+    increaseBagsFilled: (amount: number) => set((state: StatsState) => ({bagsFilled: state.bagsFilled + (amount || 1)})),
     subtractBagsFilled: (amount: number) => set((state: StatsState) => ({bagsFilled: state.bagsFilled - amount})),
 
     mowerStats: {perPatch: 1, growthRate: 2000},
