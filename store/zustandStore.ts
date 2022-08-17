@@ -80,6 +80,6 @@ export const useStatsStore = create((set) => ({
     botsTickRate: 1000,
     setTickRate: (amount: number) => set(() => ({botsTickRate: amount})),
 
-    setRobots: (type: string, image: string) => set((state: StatsState) => ({robots: {...state.robots, [type]: [...state.robots[type], image]}}))
+    setRobots: (type: any, image: string) => set((state: any) => ({robots: {...state.robots, [type]: [...state.robots[type], image]}}))
 
 }))

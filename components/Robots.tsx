@@ -68,21 +68,6 @@ export const Robots = ({ mowerImage }: { mowerImage: string }) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])
 
-   // useEffect(() => {
-   //    if (botsPerTick) {
-
-   //       if (mowerImage === '/textures/mower-cursor.png') {
-   //          setBotsPerTick(1)
-   //       } else if (mowerImage === '/textures/lawn-mower-silver.gif') {
-   //          setBotsPerTick(2)
-   //       } else if (mowerImage === '/textures/lawn-mower-gold.gif') {
-   //          setBotsPerTick(5)
-   //       } else if (mowerImage === '/textures/lawn-mower-dmnd.gif') {
-   //          setBotsPerTick(10)
-   //       }
-   //    }
-   // }, [])
-
    return (
       <div
          style={{
