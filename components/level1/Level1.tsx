@@ -55,7 +55,7 @@ export const Level1: FunctionComponent = () => {
    }
 
    return (
-      <div className={classes.grassContainer}>
+      <div className={classes.grassContainer} onMouseEnter={playSound} onMouseLeave={pauseSound}>
          <audio ref={mowerSound} src='/sounds/lawn-mower-sound.mp3' />
          <div style={{ position: 'absolute', zIndex: 2 }}>
             <Image
@@ -87,13 +87,7 @@ export const Level1: FunctionComponent = () => {
          >
             <Image src='/textures/background-100-bot.png' alt='bottom' layout='fixed' height={100} width={800} />
          </div>
-         <SimpleGrid
-            cols={10}
-            spacing={0}
-            style={{ paddingTop: '20px' }}
-            onMouseEnter={playSound}
-            onMouseLeave={pauseSound}
-         >
+         <SimpleGrid cols={10} spacing={0} style={{ paddingTop: '20px' }}>
             {amountOfGrass.map((_, idx) => (
                <GrassTile key={idx} />
             ))}

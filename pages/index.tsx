@@ -5,15 +5,24 @@ import { useEffect } from 'react'
 import { Cursor } from '../components/Cursor'
 import { Garage } from '../components/Garage'
 import { Level1 } from '../components/level1/Level1'
+import { Robots } from '../components/Robots'
 import { Store } from '../components/Store'
 import { StatsState, useStatsStore } from '../store/zustandStore'
 import { homeStyles } from '../styles/home'
 
 const Home: NextPage = () => {
    const theme = useMantineTheme()
-   const { patchesMowed, bagsFilled, increaseBagsFilled, resetPatchesMowed, mowerStats } = useStatsStore(
-      (state: any) => state
-   )
+   const {
+      patchesMowed,
+      bagsFilled,
+      increaseBagsFilled,
+      resetPatchesMowed,
+      mowerStats,
+      robots,
+      botsPerTick,
+      botsTickRate,
+      increasePatchesMowed,
+   } = useStatsStore((state: any) => state)
 
    useEffect(() => {
       if (patchesMowed >= 100) {
@@ -23,6 +32,18 @@ const Home: NextPage = () => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [patchesMowed])
 
+   useEffect(() => {
+      let tickInterval: ReturnType<typeof setInterval>
+      if (botsPerTick) {
+         tickInterval = setInterval(() => {
+            increasePatchesMowed(botsPerTick)
+         }, botsTickRate)
+      }
+
+      return () => clearInterval(tickInterval)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [botsPerTick])
+
    return (
       <div
          style={{
@@ -30,7 +51,8 @@ const Home: NextPage = () => {
             justifyContent: 'center',
             height: '100vh',
             width: '100vw',
-            alignItems: 'center',
+            alignItems: 'flex-start',
+            paddingTop: '80px',
             userSelect: 'none',
          }}
       >
@@ -66,9 +88,13 @@ const Home: NextPage = () => {
                width='450px'
                style={{ position: 'absolute', top: '-120px', zIndex: 6 }}
             />
+            {Object.keys(robots).map((type) =>
+               robots[type].map((mowerImage: string, id: number) => <Robots key={id} mowerImage={mowerImage} />)
+            )}
+
             <Level1 />
 
-            <div style={{ position: 'absolute', bottom: '-90px', width: '800px' }}>
+            <div style={{ position: 'absolute', bottom: '-140px', width: '800px' }}>
                <Title order={3}>Bags Filled: {bagsFilled}</Title>
                <Progress
                   value={patchesMowed}
@@ -79,6 +105,11 @@ const Home: NextPage = () => {
                <SimpleGrid cols={2}>
                   <Title order={5}>Per Patch: {mowerStats.perPatch}</Title>
                   <Title order={5}>Growth Rate: 0.1 per {mowerStats.growthRate / 1000} seconds </Title>
+               </SimpleGrid>
+               <Title order={4}>Robot Stats:</Title>
+               <SimpleGrid cols={2}>
+                  <Title order={5}>Bot Patches: {botsPerTick}</Title>
+                  <Title order={5}>Bot Tick Rate: {botsTickRate / 1000} second</Title>
                </SimpleGrid>
             </div>
          </div>

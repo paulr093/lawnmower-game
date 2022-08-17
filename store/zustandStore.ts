@@ -45,6 +45,10 @@ export type StatsState = {
     purchasedMowers: string[],
 
     setPurchasedMowers: (image: string) => void,
+
+    robots: {base: string[], silver: string[], gold: string[], diamond: string[]},
+    setRobots: (type: string, image: string) => void,
+    botsPerTick: number,
 }
 
 export const useStatsStore = create((set) => ({
@@ -63,6 +67,19 @@ export const useStatsStore = create((set) => ({
     setMowerImage: (image: string) => set(() => ({mowerImage: image})),
 
     purchasedMowers: ['/textures/mower-cursor.png'],
-    setPurchasedMowers: (image: string) => set((state: StatsState) => ({purchasedMowers: [...state.purchasedMowers, image]}))
+    setPurchasedMowers: (image: string) => set((state: StatsState) => ({purchasedMowers: [...state.purchasedMowers, image]})),
+
+    robots: {
+        base: [],
+        silver: [],
+        gold: [],
+        diamond: [],
+    },
+    botsPerTick: 0,
+    setBotsPerTick: (amount: number) => set((state: StatsState) => ({botsPerTick: state.botsPerTick + amount})),
+    botsTickRate: 1000,
+    setTickRate: (amount: number) => set(() => ({botsTickRate: amount})),
+
+    setRobots: (type: string, image: string) => set((state: StatsState) => ({robots: {...state.robots, [type]: [...state.robots[type], image]}}))
 
 }))
