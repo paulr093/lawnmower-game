@@ -1,5 +1,6 @@
 import { Button, Image, SimpleGrid, Title } from '@mantine/core'
 import { showNotification } from '@mantine/notifications'
+import { MOWERIMAGES } from '../../pages'
 import { useStatsStore } from '../../store/zustandStore'
 
 const SILVERPRICE = 50
@@ -7,7 +8,7 @@ const GOLDPRICE = 150
 const DIAMONDPRICE = 500
 
 export const MowerStore = ({ purchaseSound, errorSound }: { purchaseSound: any; errorSound: any }) => {
-   const { bagsFilled, subtractBagsFilled, setMowerImage, setMowerStats, setPurchasedMowers, purchasedMowers } =
+   const { bagsFilled, subtractBagsFilled, setMowerImage, setPerPatch, setPurchasedMowers, purchasedMowers } =
       useStatsStore((state: any) => state)
    /** Handles the values to display and set for a purchase of a lawnmower
     *
@@ -24,7 +25,7 @@ export const MowerStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
          subtractBagsFilled(price)
          setMowerImage(image)
          setPurchasedMowers(image)
-         setMowerStats(perPatch, growthRate)
+         setPerPatch(perPatch)
          showNotification({
             title: 'Purchase Successful!',
             message: `You now have a ${mowerName} mower.`,
@@ -49,8 +50,8 @@ export const MowerStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
          <SimpleGrid cols={3} style={{ alignItems: 'center' }} spacing='xs'>
             <Button
                color='yellow'
-               disabled={purchasedMowers.includes('/textures/lawn-mower-silver.gif')}
-               onClick={() => handlePurchase(SILVERPRICE, '/textures/lawn-mower-silver.gif', 2, 1500, 'silver')}
+               disabled={purchasedMowers.includes(MOWERIMAGES.SILVER)}
+               onClick={() => handlePurchase(SILVERPRICE, MOWERIMAGES.SILVER, 2, 1500, 'silver')}
             >
                <Title order={6}>Silver Lawn Mower</Title>
             </Button>
@@ -59,12 +60,12 @@ export const MowerStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
                {SILVERPRICE} Bags
             </Title>
 
-            <Image src='/textures/lawn-mower-silver.gif' alt='silver' height='150px' width='150px' />
+            <Image src={MOWERIMAGES.SILVER} alt='silver' height='150px' width='150px' />
 
             <Button
                color='yellow'
-               disabled={purchasedMowers.includes('/textures/lawn-mower-gold.gif')}
-               onClick={() => handlePurchase(GOLDPRICE, '/textures/lawn-mower-gold.gif', 5, 1000, 'gold')}
+               disabled={purchasedMowers.includes(MOWERIMAGES.GOLD)}
+               onClick={() => handlePurchase(GOLDPRICE, MOWERIMAGES.GOLD, 5, 1000, 'gold')}
             >
                <Title order={6}>Gold Lawn Mower</Title>
             </Button>
@@ -73,11 +74,11 @@ export const MowerStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
                {GOLDPRICE} Bags
             </Title>
 
-            <Image src='/textures/lawn-mower-gold.gif' alt='silver' height='150px' width='150px' />
+            <Image src={MOWERIMAGES.GOLD} alt='silver' height='150px' width='150px' />
             <Button
                color='yellow'
-               disabled={purchasedMowers.includes('/textures/lawn-mower-dmnd.gif')}
-               onClick={() => handlePurchase(DIAMONDPRICE, '/textures/lawn-mower-dmnd.gif', 20, 500, 'diamond')}
+               disabled={purchasedMowers.includes(MOWERIMAGES.DIAMOND)}
+               onClick={() => handlePurchase(DIAMONDPRICE, MOWERIMAGES.DIAMOND, 20, 500, 'diamond')}
             >
                <Title order={6}>Diamond Lawn Mower</Title>
             </Button>
@@ -86,7 +87,7 @@ export const MowerStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
                {DIAMONDPRICE} Bags
             </Title>
 
-            <Image src='/textures/lawn-mower-dmnd.gif' alt='silver' height='150px' width='150px' />
+            <Image src={MOWERIMAGES.DIAMOND} alt='silver' height='150px' width='150px' />
          </SimpleGrid>
       </>
    )

@@ -1,4 +1,5 @@
 import create from 'zustand';
+import { MOWERIMAGES } from '../pages';
 
 export type StatsState = {
     patchesMowed: number,
@@ -62,12 +63,14 @@ export const useStatsStore = create((set) => ({
     setBagsFilled: (amount: number) => set(() => ({bagsFilled: amount})),
 
     mowerStats: {perPatch: 1, growthRate: 2000},
+    setPerPatch: (amount: number) => set((state: StatsState) => ({mowerStats: {...state.mowerStats, perPatch: amount }})),
+    setGrowthRate: (amount: number) => set((state: StatsState) => ({mowerStats: {...state.mowerStats, growthRate: amount }})),
     setMowerStats: (perPatch: number, growthRate: number) => set(() => ({mowerStats: {perPatch: perPatch, growthRate: growthRate }})),
 
-    mowerImage: '/textures/mower-cursor.png',
+    mowerImage: MOWERIMAGES.BASE,
     setMowerImage: (image: string) => set(() => ({mowerImage: image})),
 
-    purchasedMowers: ['/textures/mower-cursor.png'],
+    purchasedMowers: [MOWERIMAGES.BASE],
     setPurchasedMowers: (image: string) => set((state: StatsState) => ({purchasedMowers: [...state.purchasedMowers, image]})),
     setPurchasedMowersFromStorage: (mowers: string[]) => set(() => ({purchasedMowers: mowers})),
 
@@ -83,6 +86,7 @@ export const useStatsStore = create((set) => ({
     setTickRate: (amount: number) => set(() => ({botsTickRate: amount})),
     setBotsPerTickFromStorage: (amount: number) => set(() => ({botsPerTick: amount})),
 
-    setRobots: (type: any, image: string) => set((state: any) => ({robots: {...state.robots, [type]: [...state.robots[type], image]}}))
+    setRobots: (type: any, image: string) => set((state: any) => ({robots: {...state.robots, [type]: [...state.robots[type], image]}})),
+    setRobotsFromStorage: (robots: object) => set((state: StatsState) => ({robots: robots}))
 
 }))

@@ -20,7 +20,7 @@ export const SaveButton = () => {
       setMowerImage,
       setMowerStats,
       setPurchasedMowersFromStorage,
-      setRobots,
+      setRobotsFromStorage,
    } = useStatsStore((state: any) => state)
    const [localStorage, setLocalStorage] = useLocalStorage<any>({ key: 'data' })
    const successAudio = useRef<HTMLAudioElement>(null)
@@ -34,11 +34,7 @@ export const SaveButton = () => {
          setMowerImage(localStorage.mowerImage)
          setMowerStats(localStorage.mowerStats?.perPatch, localStorage.mowerStats?.growthRate)
          setPurchasedMowersFromStorage(localStorage.purchasedMowers)
-         if (localStorage.robots) {
-            Object.keys(localStorage.robots).map((type: string) => {
-               localStorage.robots[type].map((image: string) => setRobots(type, image))
-            })
-         }
+         setRobotsFromStorage(localStorage.robots)
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [localStorage])
@@ -46,6 +42,7 @@ export const SaveButton = () => {
    const handleClick = () => {
       try {
          setLocalStorage({
+            date: new Date(),
             bagsFilled: bagsFilled,
             mowerStats: mowerStats,
             robots: robots,
@@ -79,7 +76,7 @@ export const SaveButton = () => {
    }
 
    return (
-      <>
+      <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10 }}>
          <audio ref={successAudio} src='/sounds/purchase.mp3' />
          <audio ref={errorAudio} src='/sounds/error.mp3' />
          <Button color='yellow' size='lg' onClick={handleClick}>
@@ -87,6 +84,6 @@ export const SaveButton = () => {
                <IconDeviceFloppy />
             </ThemeIcon>
          </Button>
-      </>
+      </div>
    )
 }

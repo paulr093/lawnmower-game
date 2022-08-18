@@ -1,6 +1,7 @@
 import { Button, Image, Modal, SimpleGrid, ThemeIcon, Title, useMantineTheme } from '@mantine/core'
 import { IconBuildingCottage } from '@tabler/icons'
 import { FunctionComponent, useState } from 'react'
+import { MOWERIMAGES } from '../pages'
 import { StatsState, useStatsStore } from '../store/zustandStore'
 
 export const Garage: FunctionComponent = () => {
@@ -10,19 +11,19 @@ export const Garage: FunctionComponent = () => {
 
    const selectMower = (mower: string) => {
       setMowerImage(mower)
-      if (mower === '/textures/mower-cursor.png') {
+      if (mower === MOWERIMAGES.BASE) {
          setMowerStats(1, 2000)
-      } else if (mower === '/textures/lawn-mower-silver.gif') {
+      } else if (mower === MOWERIMAGES.SILVER) {
          setMowerStats(2, 1500)
-      } else if (mower === '/textures/lawn-mower-gold.gif') {
+      } else if (mower === MOWERIMAGES.GOLD) {
          setMowerStats(5, 1000)
-      } else if (mower === '/textures/lawn-mower-dmnd.gif') {
+      } else if (mower === MOWERIMAGES.DIAMOND) {
          setMowerStats(20, 500)
       }
    }
 
    return (
-      <>
+      <div style={{ position: 'absolute', top: 20, left: 120, zIndex: 10 }}>
          <Modal
             opened={opened}
             onClose={() => setOpened(false)}
@@ -56,6 +57,6 @@ export const Garage: FunctionComponent = () => {
                <IconBuildingCottage />
             </ThemeIcon>
          </Button>
-      </>
+      </div>
    )
 }

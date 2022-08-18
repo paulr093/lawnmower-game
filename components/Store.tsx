@@ -11,7 +11,7 @@ export const Store: FunctionComponent = () => {
    const errorSound = useRef<HTMLAudioElement>(null)
 
    return (
-      <>
+      <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 10 }}>
          <audio ref={purchaseSound} src='/sounds/purchase.mp3' />
          <audio ref={errorSound} src='/sounds/error.mp3' />
          <Modal
@@ -48,6 +48,6 @@ export const Store: FunctionComponent = () => {
                <IconBuildingStore />
             </ThemeIcon>
          </Button>
-      </>
+      </div>
    )
 }

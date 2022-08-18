@@ -5,8 +5,18 @@ import { useEffect } from 'react'
 import { Garage } from '../components/Garage'
 import { Level1 } from '../components/level1/Level1'
 import { SaveButton } from '../components/SaveButton'
+import { Stats } from '../components/Stats'
 import { Store } from '../components/Store'
+import { TimePassed } from '../components/TimePassed'
 import { useStatsStore } from '../store/zustandStore'
+import { homeStyles } from '../styles/home'
+
+export const MOWERIMAGES = {
+   BASE: '/textures/mower-cursor.png',
+   SILVER: '/textures/lawn-mower-silver.gif',
+   GOLD: '/textures/lawn-mower-gold.gif',
+   DIAMOND: '/textures/lawn-mower-dmnd.gif',
+}
 
 const Home: NextPage = () => {
    const {
@@ -19,6 +29,7 @@ const Home: NextPage = () => {
       botsTickRate,
       increasePatchesMowed,
    } = useStatsStore((state: any) => state)
+   const { classes } = homeStyles()
 
    useEffect(() => {
       if (patchesMowed >= 100) {
@@ -42,46 +53,21 @@ const Home: NextPage = () => {
    }, [botsPerTick])
 
    return (
-      <div
-         style={{
-            display: 'flex',
-            justifyContent: 'center',
-            height: '100vh',
-            width: '100vw',
-            alignItems: 'flex-start',
-            paddingTop: '80px',
-            userSelect: 'none',
-         }}
-      >
+      <div className={classes.mainPage}>
          <Head>
             <title>LAWN MOWER 5000</title>
             <meta name='description' content='If you love the sound of lawn mowers, this is the game for you.' />
             <link rel='icon' href='/favicon.ico' />
          </Head>
 
-         <div
-            style={{
-               position: 'relative',
-               alignItems: 'center',
-               cursor: 'none',
-               justifyContent: 'center',
-               display: 'flex',
-               height: '600px',
-               width: '800px',
-               userSelect: 'none',
-            }}
-         >
-            <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 10 }}>
-               <Store />
-            </div>
+         <div className={classes.gameContainer}>
+            <Store />
 
-            <div style={{ position: 'absolute', top: 20, left: 120, zIndex: 10 }}>
-               <Garage />
-            </div>
+            <Garage />
 
-            <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10 }}>
-               <SaveButton />
-            </div>
+            <SaveButton />
+
+            <TimePassed />
 
             <Image
                alt='logo'
@@ -93,24 +79,7 @@ const Home: NextPage = () => {
 
             <Level1 />
 
-            <div style={{ position: 'absolute', bottom: '-140px', width: '800px' }}>
-               <Title order={3}>Bags Filled: {bagsFilled}</Title>
-               <Progress
-                  value={patchesMowed}
-                  color='yellow'
-                  style={{ border: '1px solid green', backgroundColor: 'rgba(0,0,0,0.2)' }}
-               />
-               <Title order={4}>Mower Stats:</Title>
-               <SimpleGrid cols={2}>
-                  <Title order={5}>Per Patch: {mowerStats.perPatch}</Title>
-                  <Title order={5}>Growth Rate: 0.1 per {mowerStats.growthRate / 1000} seconds </Title>
-               </SimpleGrid>
-               <Title order={4}>Robot Stats:</Title>
-               <SimpleGrid cols={2}>
-                  <Title order={5}>Bot Per Patch: {botsPerTick}</Title>
-                  <Title order={5}>Bot Tick Rate: {botsTickRate / 1000} second</Title>
-               </SimpleGrid>
-            </div>
+            <Stats />
          </div>
       </div>
    )

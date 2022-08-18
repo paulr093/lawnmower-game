@@ -1,5 +1,6 @@
 import { Button, Center, Grid, Image, SimpleGrid, Title } from '@mantine/core'
 import { showNotification } from '@mantine/notifications'
+import { MOWERIMAGES } from '../../pages'
 import { StatsState, useStatsStore } from '../../store/zustandStore'
 
 const BASEBOT = 25
@@ -64,13 +65,13 @@ export const RobotStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
       }
 
       if (name === 'base' && bagsFilled >= BASEBOT) {
-         similars(name, '/textures/mower-cursor.png', BASEBOT, 1)
+         similars(name, MOWERIMAGES.BASE, BASEBOT, 1)
       } else if (name === 'silver' && bagsFilled >= SILVERBOT) {
-         similars(name, '/textures/lawn-mower-silver.gif', SILVERBOT, 2)
+         similars(name, MOWERIMAGES.SILVER, SILVERBOT, 2)
       } else if (name === 'gold' && bagsFilled >= GOLDBOT) {
-         similars(name, '/textures/lawn-mower-gold.gif', GOLDBOT, 5)
+         similars(name, MOWERIMAGES.GOLD, GOLDBOT, 5)
       } else if (name === 'diamond' && bagsFilled >= DIAMONDBOT) {
-         similars(name, '/textures/lawn-mower-dmnd.gif', DIAMONDBOT, 10)
+         similars(name, MOWERIMAGES.DIAMOND, DIAMONDBOT, 10)
       } else {
          errorSound.current.volume = 0.3
          errorSound.current.play()
@@ -93,7 +94,7 @@ export const RobotStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
                name='base'
                description='Mows 1 patch per second.'
                cost={BASEBOT}
-               image='/textures/mower-cursor.png'
+               image={MOWERIMAGES.BASE}
                type={robots.base}
             />
             <GridRowBots
@@ -102,7 +103,7 @@ export const RobotStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
                name='silver'
                description='Mows 2 patches per second.'
                cost={SILVERBOT}
-               image='/textures/lawn-mower-silver.gif'
+               image={MOWERIMAGES.SILVER}
                type={robots.silver}
             />
             <GridRowBots
@@ -111,7 +112,7 @@ export const RobotStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
                name='gold'
                description='Mows 5 patches per second.'
                cost={GOLDBOT}
-               image='/textures/lawn-mower-gold.gif'
+               image={MOWERIMAGES.GOLD}
                type={robots.gold}
             />
             <GridRowBots
@@ -120,7 +121,7 @@ export const RobotStore = ({ purchaseSound, errorSound }: { purchaseSound: any; 
                name='diamond'
                description='Mows 10 patch per second.'
                cost={DIAMONDBOT}
-               image='/textures/lawn-mower-dmnd.gif'
+               image={MOWERIMAGES.DIAMOND}
                type={robots.diamond}
             />
          </SimpleGrid>
